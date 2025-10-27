@@ -1,4 +1,6 @@
-
+#####################
+# AI CODE - ChatGPT #
+#####################
 cmake_minimum_required(VERSION 3.16)
 project(opengl LANGUAGES CXX)
 
@@ -39,4 +41,7 @@ if (MSVC)
 else()
     target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic)
 endif()
+######################
+# /AI CODE - ChatGPT #
+######################
 
