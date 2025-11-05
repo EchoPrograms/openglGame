@@ -1,4 +1,3 @@
 /* File: main.h
- * Author: Brogan
- */
+ * Author: Brogan */
 #pragma once

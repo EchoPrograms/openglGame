@@ -4,11 +4,8 @@
 
 #include "main.h"
 #include "game/game.h"
-bool g_EngineRunning = true;
 
 int main() {
-  while (EngineRunning) {
-    Game game;
-  }
+  Game game;
   return 0;
 }

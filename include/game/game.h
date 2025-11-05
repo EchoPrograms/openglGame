@@ -11,6 +11,10 @@ class Game {
 public:
   Game();
   ~Game();
+  
+  bool isRunning() { return m_running; }
+  void run();
+  void stop();
 
 private:
   void Update();

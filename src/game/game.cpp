@@ -28,6 +28,8 @@ Game::Game() {
 
   while (!glfwWindowShouldClose(m_renderer->getGLFWWindow()))
     Update();
+
+  g_Eng 
 }
 
 void Game::Update() { m_renderer->renderLoop(); }
