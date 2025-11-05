@@ -1,5 +1,14 @@
-#include <iostream>
+/* File: main.cpp
+ * Author: Brogan
+ */
+
+#include "main.h"
+#include "game/game.h"
+bool g_EngineRunning = true;
 
 int main() {
-  std::cout << "Test" << std::endl;
+  while (EngineRunning) {
+    Game game;
+  }
+  return 0;
 }

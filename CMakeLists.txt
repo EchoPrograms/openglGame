@@ -4,6 +4,8 @@
 cmake_minimum_required(VERSION 3.16)
 project(opengl LANGUAGES CXX)
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 # Use modern C++ standard
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -13,6 +15,10 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+
+find_package(OpenGL REQUIRED)
+find_package(GLEW REQUIRED)
+find_package(glfw3 REQUIRED)
 
 # Add include directories (for project headers)
 include_directories(${PROJECT_SOURCE_DIR}/include)
@@ -33,7 +39,7 @@ add_executable(${PROJECT_NAME}
 
 # Example: link with libraries (if any under lib/)
 # add_subdirectory(lib)
-# target_link_libraries(${PROJECT_NAME} PRIVATE yourlibname)
+target_link_libraries(opengl ${OPENGL_LIBRARIES} GLEW glfw)
 
 # Optionally enable warnings
 if (MSVC)
