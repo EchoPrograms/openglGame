@@ -3,7 +3,10 @@
  */
 
 #include "game/renderer/renderer.h"
+#include "constants.h"
 #include <GLFW/glfw3.h>
+
+using namespace Constants::Renderer;
 
 Renderer::Renderer() {
   if (!glfwInit()) {
@@ -11,8 +14,8 @@ Renderer::Renderer() {
     return;
   }
 
-  m_window = glfwCreateWindow(800, 600, "opengl", nullptr, nullptr);
-
+  m_window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE,
+                              nullptr, nullptr);
   if (!m_window) {
     glfwTerminate();
     m_status = WindowInitFailed;
@@ -28,7 +31,6 @@ void Renderer::renderLoop() {
   glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
 
   glfwSwapBuffers(getGLFWWindow());
-  glfwPollEvents();
 }
 
 Renderer::~Renderer() {

@@ -8,8 +8,9 @@
 #include <iostream>
 
 Game::Game() {
-  m_renderer = new Renderer();
+  m_renderer = new Renderer(); // Handles glfw and opengl
 
+  // Checks for errors thrown by the initialization of the window
   switch (m_renderer->getStatus()) {
   case GLFWInitFailed:
     std::cerr << "Failed to initialize GLFW\n";
@@ -20,19 +21,26 @@ Game::Game() {
   case OK:
     break;
   default:
-    std::cout << "how...?\n";
+    std::cout << "how...?\n"; // What have you done?
     break;
   }
 
+  // The input manager uses GLFW to capture user input
   m_inputMangager = new InputManager(m_renderer->getGLFWWindow());
-
-  while (!glfwWindowShouldClose(m_renderer->getGLFWWindow()))
-    Update();
-
-  g_Eng 
 }
 
-void Game::Update() { m_renderer->renderLoop(); }
+void Game::run() {
+  // The capturing loop of the program
+  while (m_renderer->windowOpen()) {
+    Update();
+  }
+}
+
+void Game::Update() {
+
+  glfwPollEvents();
+  m_renderer->renderLoop();
+}
 
 Game::~Game() {
   delete m_inputMangager;

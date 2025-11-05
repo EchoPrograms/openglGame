@@ -17,6 +17,7 @@ public:
 
   GLFWwindow *getGLFWWindow() { return m_window; };
   Status getStatus() { return m_status; };
+  bool windowOpen() { return !glfwWindowShouldClose(m_window); }
 
 private:
   void renderLoop();
