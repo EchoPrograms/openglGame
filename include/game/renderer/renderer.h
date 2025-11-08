@@ -3,11 +3,10 @@
  */
 #pragma once
 
-#include <GLFW/glfw3.h>
-
 class Game;
+class GLFWwindow;
 
-enum Status { OK, WindowInitFailed, GLFWInitFailed };
+enum Status { OK, WindowInitFailed, GLFWInitFailed, GLADInitFailed };
 
 class Renderer {
   /* Methods */
@@ -17,9 +16,7 @@ public:
 
   GLFWwindow *getGLFWWindow() { return m_window; };
   Status getStatus() { return m_status; };
-  bool windowOpen() { return !glfwWindowShouldClose(m_window); }
-
-private:
+  bool windowOpen();
   void renderLoop();
 
   /* Member Varaibles */

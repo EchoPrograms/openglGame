@@ -1,14 +1,16 @@
-/* File: window.cpp
+/* File: renderer.cpp
  * Author: Brogan
  */
 
 #include "game/renderer/renderer.h"
 #include "constants.h"
+#include "glad/glad.h"
 #include <GLFW/glfw3.h>
 
 using namespace Constants::Renderer;
 
 Renderer::Renderer() {
+
   if (!glfwInit()) {
     m_status = GLFWInitFailed;
     return;
@@ -23,6 +25,11 @@ Renderer::Renderer() {
   }
 
   glfwMakeContextCurrent(m_window);
+
+  if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+    m_status = GLADInitFailed;
+    return;
+  }
 }
 
 void Renderer::renderLoop() {
@@ -32,6 +39,8 @@ void Renderer::renderLoop() {
 
   glfwSwapBuffers(getGLFWWindow());
 }
+
+bool Renderer::windowOpen() { return !glfwWindowShouldClose(m_window); }
 
 Renderer::~Renderer() {
   glfwDestroyWindow(m_window);

@@ -15,6 +15,9 @@ Game::Game() {
   case GLFWInitFailed:
     std::cerr << "Failed to initialize GLFW\n";
     return;
+  case GLADInitFailed:
+    std::cerr << "Failed to initialize GLAD\n";
+    return;
   case WindowInitFailed:
     std::cerr << "Failed to create window\n";
     return;
