@@ -17,6 +17,9 @@ public:
   GLFWwindow *getGLFWWindow() { return m_window; };
   Status getStatus() { return m_status; };
   bool windowOpen();
+  void init();
+
+private:
   void renderLoop();
 
   /* Member Varaibles */

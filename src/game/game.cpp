@@ -33,6 +33,8 @@ Game::Game() {
 }
 
 void Game::run() {
+  m_renderer->init();
+
   // The capturing loop of the program
   while (m_renderer->windowOpen()) {
     Update();
@@ -41,8 +43,8 @@ void Game::run() {
 
 void Game::Update() {
 
-  glfwPollEvents();
   m_renderer->renderLoop();
+  return;
 }
 
 Game::~Game() {
