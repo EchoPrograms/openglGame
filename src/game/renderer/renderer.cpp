@@ -77,21 +77,25 @@ void Renderer::init() {
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices,
                GL_STATIC_DRAW);
-
+  // clang-format off
   const char *vertexShaderSource =
       "#version 330 core\n"
       "layout (location = 0) in vec3 aPos;\n"
+      "out vec4 vertexColor;\n"
       "void main()\n"
       "{\n"
       " gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+      " vertexColor = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
       "}\0";
   const char *fragmentShaderSource =
       "#version 330 core\n"
       "out vec4 FragColor;\n"
+      "in vec4 vertexColor;\n"
       "void main()\n"
       "{\n"
-      " FragColor = vec4(0.7f, 0.7f, 0.7f, 1.0f);\n"
+      " FragColor = vertexColor;\n"
       "}\0";
+  // clang-format on
 
   int success;
   char infoLog[512];
@@ -131,7 +135,6 @@ void Renderer::init() {
 
   glDeleteShader(vertexShader);
   glDeleteShader(fragmentShader);
-
   return;
 }
 
