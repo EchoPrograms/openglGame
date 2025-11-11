@@ -3,6 +3,7 @@
  */
 #pragma once
 
+#include "game/renderer/shader.h"
 class Game;
 class GLFWwindow;
 
@@ -27,6 +28,8 @@ public:
 private:
   Status m_status = OK;
   GLFWwindow *m_window;
+
+  Shader *shader;
 
   friend Game;
 };

@@ -38,6 +38,14 @@ add_executable(${PROJECT_NAME}
     ${PROJECT_HEADERS}
 )
 
+# Copy shader directory into build directory
+add_custom_command(
+    TARGET opengl POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+            ${CMAKE_SOURCE_DIR}/res
+            ${CMAKE_CURRENT_BINARY_DIR}/bin/res
+)
+
 # Example: link with libraries (if any under lib/)
 # add_subdirectory(lib)
 target_link_libraries(opengl ${OPENGL_LIBRARIES} glad glfw)

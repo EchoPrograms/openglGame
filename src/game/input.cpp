@@ -13,12 +13,9 @@ void keyCallback(GLFWwindow *window, int key, int scancode, int action,
   }
 
   if (key == GLFW_KEY_F && action == GLFW_PRESS) {
-    std::cout << "F key pressed\n";
   }
 }
-void cursorPosCallback(GLFWwindow *window, double x, double y) {
-  std::cout << "Mouse: " << x << ", " << y << '\n';
-}
+void cursorPosCallback(GLFWwindow *window, double x, double y) {}
 
 InputManager::InputManager(GLFWwindow *window) {
   glfwSetCursorPosCallback(window, cursorPosCallback);
