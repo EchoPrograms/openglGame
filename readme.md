@@ -12,7 +12,7 @@
 
 ### Linux Scripts
 The `linuxScripts` directory contains helper scripts for the project. They 
-are all meant to be run from the `linuxScripts directory,` and will return 
+are all meant to be run from the `linuxScripts` directory, and will return 
 there after execution.
 - `linuxBuild.sh`:
   - Navigates to the `build` dir, runs `make`, then executes the program
