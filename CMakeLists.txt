@@ -19,6 +19,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 find_package(OpenGL REQUIRED)
 
 add_subdirectory(lib/GLAD)
+add_subdirectory(lib/glm)
 add_subdirectory(lib/GLFW)
 
 # Add include directories (for project headers)
@@ -48,7 +49,7 @@ add_custom_command(
 
 # Example: link with libraries (if any under lib/)
 # add_subdirectory(lib)
-target_link_libraries(opengl ${OPENGL_LIBRARIES} glad glfw)
+target_link_libraries(opengl ${OPENGL_LIBRARIES} glad glfw glm)
 
 # Optionally enable warnings
 if (MSVC)
