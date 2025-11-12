@@ -49,7 +49,7 @@ add_custom_command(
 
 # Example: link with libraries (if any under lib/)
 # add_subdirectory(lib)
-target_link_libraries(opengl ${OPENGL_LIBRARIES} glad glfw glm)
+target_link_libraries(opengl ${OPENGL_LIBRARIES} glad glfw)
 
 # Optionally enable warnings
 if (MSVC)
