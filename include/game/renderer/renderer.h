@@ -4,8 +4,12 @@
 #pragma once
 
 #include "game/renderer/shader.h"
+#include <memory>
+#include <vector>
+
 class Game;
 class GLFWwindow;
+class Model;
 
 enum Status { OK, WindowInitFailed, GLFWInitFailed, GLADInitFailed };
 
@@ -28,8 +32,7 @@ public:
 private:
   Status m_status = OK;
   GLFWwindow *m_window;
-
-  Shader *shader;
+  std::vector<std::unique_ptr<Model>> models;
 
   friend Game;
 };

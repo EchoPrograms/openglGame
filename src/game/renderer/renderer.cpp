@@ -6,6 +6,7 @@
 #include "game/renderer/renderer.h"
 #include "constants.h"
 #include "game/renderer/shader.h"
+#include "game/renderer/model.h"
 #include "stb/stb_image.h"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -52,8 +53,8 @@ void Renderer::init() {
 
   glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-  shader = new Shader("res/shaders/default.vert", "res/shaders/default.frag");
-  shader->use();
+  // shader = new Shader("res/shaders/default.vert",
+  // "res/shaders/default.frag"); shader->use();
   // clang-format off
   float vertices[] = {
     -0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
@@ -114,7 +115,7 @@ void Renderer::init() {
                GL_UNSIGNED_BYTE, data);
   glGenerateMipmap(GL_TEXTURE_2D);
   stbi_image_free(data);
-  shader->setInt("u_Texture1", 0);
+  // shader->setInt("u_Texture1", 0);
 
   data = stbi_load("res/textures/arch.png", &width, &height, &nrChannels, 0);
 
@@ -129,7 +130,7 @@ void Renderer::init() {
                GL_UNSIGNED_BYTE, data);
   glGenerateMipmap(GL_TEXTURE_2D);
   stbi_image_free(data);
-  shader->setInt("u_Texture2", 1);
+  // shader->setInt("u_Texture2", 1);
 
   unsigned int VAO;
   unsigned int VBO;
@@ -158,34 +159,42 @@ void Renderer::init() {
 
   return;
 }
+static glm::vec3 cubePositions[] = {
+    glm::vec3(0.0f, 0.0f, 0.0f),    glm::vec3(2.0f, 5.0f, -15.0f),
+    glm::vec3(-1.5f, -2.2f, -2.5f), glm::vec3(-3.8f, -2.0f, -12.3f),
+    glm::vec3(2.4f, -0.4f, -3.5f),  glm::vec3(-1.7f, 3.0f, -7.5f),
+    glm::vec3(1.3f, -2.0f, -2.5f),  glm::vec3(1.5f, 2.0f, -2.5f),
+    glm::vec3(1.5f, 0.2f, -1.5f),   glm::vec3(-1.3f, 1.0f, -1.5f)};
 
 void Renderer::renderLoop() {
-  float time = glfwGetTime();
-
-  glm::mat4 model = glm::mat4(1.0f);
-  model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-  model =
-      glm::rotate(model, glm::radians(time) * 50, glm::vec3(0.0f, 0.0f, 1.0f));
-
-  glm::mat4 view = glm::mat4(1.0f);
-  view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-
-  glm::mat4 projection;
-  projection = glm::perspective(glm::radians(45.0f),
-                                (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT,
-                                0.1f, 100.0f);
-
-  int modelLoc = glGetUniformLocation(shader->ID, "u_Model");
-  glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-
-  int viewLoc = glGetUniformLocation(shader->ID, "u_View");
-  glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-
-  int projectionLoc = glGetUniformLocation(shader->ID, "u_Projection");
-  glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
-
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  glDrawArrays(GL_TRIANGLES, 0, 36);
+  for (unsigned int i = 0; i < 10; i++) {
+    glm::mat4 model = glm::mat4(1.0f);
+    model = glm::translate(model, cubePositions[i]);
+    float angle = 20.0f * i;
+    model =
+        glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
+
+    glm::mat4 view = glm::mat4(1.0f);
+    view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+
+    glm::mat4 projection;
+    projection = glm::perspective(glm::radians(45.0f),
+                                  (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT,
+                                  0.1f, 100.0f);
+
+    // int modelLoc = glGetUniformLocation(shader->ID, "u_Model");
+    // glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+
+    // int viewLoc = glGetUniformLocation(shader->ID, "u_View");
+    // glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+
+    // int projectionLoc = glGetUniformLocation(shader->ID, "u_Projection");
+    // glUniformMatrix4fv(projectionLoc, 1, GL_FALSE,
+    // glm::value_ptr(projection));
+
+    glDrawArrays(GL_TRIANGLES, 0, 36);
+  }
   // glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
   glfwSwapBuffers(getGLFWWindow());
 
@@ -197,5 +206,5 @@ bool Renderer::windowOpen() { return !glfwWindowShouldClose(m_window); }
 Renderer::~Renderer() {
   glfwDestroyWindow(m_window);
   glfwTerminate();
-  delete shader;
+  // delete shader;
 }

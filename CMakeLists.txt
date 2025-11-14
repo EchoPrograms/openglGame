@@ -21,6 +21,7 @@ find_package(OpenGL REQUIRED)
 add_subdirectory(lib/GLAD)
 add_subdirectory(lib/glm)
 add_subdirectory(lib/GLFW)
+add_subdirectory(lib/assimp)
 
 # Add include directories (for project headers)
 include_directories(${PROJECT_SOURCE_DIR}/include)
