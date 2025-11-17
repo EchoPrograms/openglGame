@@ -13,6 +13,7 @@ Model::Model(const char *vertexFile)
     : Model(vertexFile, "res/shaders/default.vert",
             "res/shaders/default.frag") {}
 
+
 Model::Model(const char *vertexFile, const char *vertexShaderFile,
              const char *fragmentShaderFile)
     : shader(vertexShaderFile, fragmentShaderFile) {}
