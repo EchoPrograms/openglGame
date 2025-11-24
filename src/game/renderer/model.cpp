@@ -105,6 +105,65 @@ glm::mat4 Model::getModelMatrix() const {
   return model;
 }
 
+std::unique_ptr<Model> Model::CreateCube() {
+  auto model = std::make_unique<Model>();
+  
+  // Define cube vertices
+  std::vector<Vertex> vertices = {
+    // Front face
+    {{-0.5f, -0.5f,  0.5f}, {0.0f,  0.0f,  1.0f}, {0.0f, 0.0f}},
+    {{ 0.5f, -0.5f,  0.5f}, {0.0f,  0.0f,  1.0f}, {1.0f, 0.0f}},
+    {{ 0.5f,  0.5f,  0.5f}, {0.0f,  0.0f,  1.0f}, {1.0f, 1.0f}},
+    {{-0.5f,  0.5f,  0.5f}, {0.0f,  0.0f,  1.0f}, {0.0f, 1.0f}},
+    
+    // Back face
+    {{ 0.5f, -0.5f, -0.5f}, {0.0f,  0.0f, -1.0f}, {0.0f, 0.0f}},
+    {{-0.5f, -0.5f, -0.5f}, {0.0f,  0.0f, -1.0f}, {1.0f, 0.0f}},
+    {{-0.5f,  0.5f, -0.5f}, {0.0f,  0.0f, -1.0f}, {1.0f, 1.0f}},
+    {{ 0.5f,  0.5f, -0.5f}, {0.0f,  0.0f, -1.0f}, {0.0f, 1.0f}},
+    
+    // Top face
+    {{-0.5f,  0.5f,  0.5f}, {0.0f,  1.0f,  0.0f}, {0.0f, 0.0f}},
+    {{ 0.5f,  0.5f,  0.5f}, {0.0f,  1.0f,  0.0f}, {1.0f, 0.0f}},
+    {{ 0.5f,  0.5f, -0.5f}, {0.0f,  1.0f,  0.0f}, {1.0f, 1.0f}},
+    {{-0.5f,  0.5f, -0.5f}, {0.0f,  1.0f,  0.0f}, {0.0f, 1.0f}},
+    
+    // Bottom face
+    {{-0.5f, -0.5f, -0.5f}, {0.0f, -1.0f,  0.0f}, {0.0f, 0.0f}},
+    {{ 0.5f, -0.5f, -0.5f}, {0.0f, -1.0f,  0.0f}, {1.0f, 0.0f}},
+    {{ 0.5f, -0.5f,  0.5f}, {0.0f, -1.0f,  0.0f}, {1.0f, 1.0f}},
+    {{-0.5f, -0.5f,  0.5f}, {0.0f, -1.0f,  0.0f}, {0.0f, 1.0f}},
+    
+    // Right face
+    {{ 0.5f, -0.5f,  0.5f}, {1.0f,  0.0f,  0.0f}, {0.0f, 0.0f}},
+    {{ 0.5f, -0.5f, -0.5f}, {1.0f,  0.0f,  0.0f}, {1.0f, 0.0f}},
+    {{ 0.5f,  0.5f, -0.5f}, {1.0f,  0.0f,  0.0f}, {1.0f, 1.0f}},
+    {{ 0.5f,  0.5f,  0.5f}, {1.0f,  0.0f,  0.0f}, {0.0f, 1.0f}},
+    
+    // Left face
+    {{-0.5f, -0.5f, -0.5f}, {-1.0f,  0.0f,  0.0f}, {0.0f, 0.0f}},
+    {{-0.5f, -0.5f,  0.5f}, {-1.0f,  0.0f,  0.0f}, {1.0f, 0.0f}},
+    {{-0.5f,  0.5f,  0.5f}, {-1.0f,  0.0f,  0.0f}, {1.0f, 1.0f}},
+    {{-0.5f,  0.5f, -0.5f}, {-1.0f,  0.0f,  0.0f}, {0.0f, 1.0f}}
+  };
+  
+  // Define cube indices (two triangles per face)
+  std::vector<unsigned int> indices = {
+    0,  1,  2,  2,  3,  0,   // Front
+    4,  5,  6,  6,  7,  4,   // Back
+    8,  9,  10, 10, 11, 8,   // Top
+    12, 13, 14, 14, 15, 12,  // Bottom
+    16, 17, 18, 18, 19, 16,  // Right
+    20, 21, 22, 22, 23, 20   // Left
+  };
+  
+  std::vector<Texture> textures; // No textures for simple cube
+  
+  model->meshes.push_back(Mesh(vertices, indices, textures));
+  
+  return model;
+}
+
 void Model::Draw() {
   shader.use();
   
@@ -232,12 +291,18 @@ unsigned int TextureFromFile(const char *path, const std::string &directory) {
   unsigned char *data = stbi_load(filename.c_str(), &width, &height, &nrComponents, 0);
   if(data) {
     GLenum format;
-    if(nrComponents == 1)
+    if(nrComponents == 1) {
       format = GL_RED;
-    else if(nrComponents == 3)
+    } else if(nrComponents == 3) {
       format = GL_RGB;
-    else if(nrComponents == 4)
+    } else if(nrComponents == 4) {
       format = GL_RGBA;
+    } else {
+      // Handle unexpected component count
+      std::cerr << "Unexpected texture component count: " << nrComponents << " for " << filename << std::endl;
+      stbi_image_free(data);
+      return textureID;
+    }
     
     glBindTexture(GL_TEXTURE_2D, textureID);
     glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);

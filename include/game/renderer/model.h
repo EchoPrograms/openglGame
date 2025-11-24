@@ -40,6 +40,9 @@ public:
   Model(const char *path);
   Model(const char *path, const char *vertexShaderFile, const char *fragmentShaderFile);
   
+  // Create a simple cube model for testing
+  static std::unique_ptr<Model> CreateCube();
+  
   void Draw();
   
   // Transform accessors
