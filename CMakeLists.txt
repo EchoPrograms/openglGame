@@ -25,7 +25,6 @@ add_subdirectory(lib/assimp)
 
 # Add include directories (for project headers)
 include_directories(${PROJECT_SOURCE_DIR}/include)
-include_directories(${PROJECT_SOURCE_DIR}/lib)
 
 # Collect source files
 file(GLOB_RECURSE PROJECT_SOURCES CONFIGURE_DEPENDS
@@ -43,15 +42,26 @@ add_executable(${PROJECT_NAME}
 
 # Copy shader directory into build directory
 add_custom_command(
-    TARGET opengl POST_BUILD
+    TARGET ${PROJECT_NAME} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
             ${CMAKE_SOURCE_DIR}/res
             ${CMAKE_CURRENT_BINARY_DIR}/bin/res
 )
 
-# Example: link with libraries (if any under lib/)
-# add_subdirectory(lib)
-target_link_libraries(opengl ${OPENGL_LIBRARIES} glad glfw assimp)
+# Link libraries. Ensure we link the bundled Assimp target so its include dirs and
+# link settings are propagated. Use PRIVATE for modern CMake usage.
+target_link_libraries(${PROJECT_NAME} PRIVATE
+    assimp
+    ${OPENGL_LIBRARIES}
+    glad
+    glfw
+)
+
+# Fallback: if for some reason the assimp target doesn't export include dirs,
+# explicitly add the bundled include path (harmless if redundant).
+target_include_directories(${PROJECT_NAME} PRIVATE
+    ${PROJECT_SOURCE_DIR}/lib/assimp/include
+)
 
 # Optionally enable warnings
 if (MSVC)
@@ -62,4 +72,3 @@ endif()
 ######################
 # /AI CODE - ChatGPT #
 ######################
-
