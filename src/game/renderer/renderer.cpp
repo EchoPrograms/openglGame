@@ -9,6 +9,7 @@
 #include "game/renderer/model.h"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <glm/fwd.hpp>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -72,6 +73,7 @@ void Renderer::renderLoop() {
   
   // Render all models
   for (auto &model : models) {
+    model->setRotation(model->getRotation() + glm::vec3(0.7f, 1.0f, 0.242f)); 
     Shader &shader = model->getShader();
     shader.use();
     
