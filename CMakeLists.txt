@@ -25,6 +25,7 @@ add_subdirectory(lib/assimp)
 
 # Add include directories (for project headers)
 include_directories(${PROJECT_SOURCE_DIR}/include)
+include_directories(${PROJECT_SOURCE_DIR}/lib)
 
 # Collect source files
 file(GLOB_RECURSE PROJECT_SOURCES CONFIGURE_DEPENDS
@@ -50,7 +51,7 @@ add_custom_command(
 
 # Example: link with libraries (if any under lib/)
 # add_subdirectory(lib)
-target_link_libraries(opengl ${OPENGL_LIBRARIES} glad glfw)
+target_link_libraries(opengl ${OPENGL_LIBRARIES} glad glfw assimp)
 
 # Optionally enable warnings
 if (MSVC)

@@ -5,6 +5,7 @@
 #include "game/game.h"
 #include "game/input.h"
 #include "game/renderer/renderer.h"
+#include "game/renderer/model.h"
 #include <iostream>
 
 Game::Game() {
@@ -34,6 +35,12 @@ Game::Game() {
 
 void Game::run() {
   m_renderer->init();
+  
+  // Create a simple test cube
+  auto testCube = Model::CreateCube();
+  testCube->setPosition(glm::vec3(0.0f, 0.0f, -5.0f));
+  testCube->setRotation(glm::vec3(45.0f, 45.0f, 0.0f));
+  m_renderer->addModel(std::move(testCube));
 
   // The capturing loop of the program
   while (m_renderer->windowOpen()) {
